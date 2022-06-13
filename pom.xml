@@ -24,7 +24,7 @@
         <java.version>11</java.version>
         <lombok.version>1.18.22</lombok.version>
         <swagger.version>2.4.0</swagger.version>
-        <skip.unit.tests>false</skip.unit.tests>
+        <assertj.version>3.22.0</assertj.version>
     </properties>
 
     <dependencies>
@@ -89,6 +89,24 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--Additional Dependencies for Integration Tests-->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!--Alternative Dependencies for Integration Tests on Spring Boot Application using SpringBootTest instead of ContextConfiguration and WebAppConfiguration-->
+        <!--		<dependency>-->
+        <!--			<groupId>org.springframework.boot</groupId>-->
+        <!--			<artifactId>spring-boot-test-autoconfigure</artifactId>-->
+        <!--			<scope>test</scope>-->
+        <!--		</dependency>-->
+        <!--		<dependency>-->
+        <!--			<groupId>org.springframework.boot</groupId>-->
+        <!--			<artifactId>spring-boot-test</artifactId>-->
+        <!--			<scope>test</scope>-->
+        <!--		</dependency>-->
 
     </dependencies>
 
@@ -103,6 +121,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

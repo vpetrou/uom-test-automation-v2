@@ -36,7 +36,31 @@ Following below steps, we can build the Test Automation Playground application:
 
 <i>Report is generated in /target/site/surefire-report.html</i>
 
-4. Run Application
+4. Run Integration Tests
+
+
+    mvn failsafe:integration-test
+
+5. Generate Integration Test Report
+
+
+    mvn surefire-report:failsafe-report-only
+    mvn site -DgenerateReports=false 
+
+<i>Report is generated in /target/site/failsafe-report.html</i>
+
+<b>Instead of 2,3,4,5</b></br>
+<b>Run both Unit & Integration Tests and Generate Unit & Integration Test Report</b>
+
+
+    mvn integration-test
+    mvn surefire-report:report-only
+    mvn surefire-report:failsafe-report-only
+    mvn site -DgenerateReports=false     
+
+
+
+6. Run Application
 
 
     mvn spring-boot:run
