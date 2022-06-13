@@ -18,13 +18,26 @@ Test Automation Playground is a CRUD (Create,Read,Update,Delete) Application wit
 
 Following below steps, we can build the Test Automation Playground application:
 
-1. Build
+1. Build (without tests)
 
 
-    mvn clean install
+    mvn clean install -DskipTests
 
-2. Run
-   
+2. Run Unit Tests
+
+
+    mvn test
+
+3. Generate Unit Test Report
+
+
+    mvn surefire-report:report-only
+    mvn site -DgenerateReports=false 
+
+<i>Report is generated in /target/site/surefire-report.html</i>
+
+4. Run Application
+
 
     mvn spring-boot:run
 
@@ -33,6 +46,8 @@ Running below command application will be up and running.
    
     cd target/releases
     java -jar test-automation-1.0.0.jar
+
+<i>To stop 'test-automation-playground' just click CTRL + C on the console window.</i>
 
 <h3>TEST AUTOMATION PLAYGROUND LINKS</h3>
 
