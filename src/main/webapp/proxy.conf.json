@@ -1,0 +1,12 @@
+{
+  "/localhost:4200": {
+     "target":  {
+       "host": "localhost",
+       "protocol": "http:",
+       "port": 7130
+     },
+     "secure": false,
+     "changeOrigin": true,
+     "logLevel": "info"
+  }
+}
