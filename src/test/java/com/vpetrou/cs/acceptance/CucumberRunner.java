@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
         plugin = {"json:target/cucumber/cucumber.json", "pretty",
                 "html:target/cucumber/cucumber-html-report.html", "junit:target/cucumber/cucumber-junit-report.xml"},
         features = {"src/test/resources/features/"},
-        tags = "@API and not @Manual",
+        tags = "(@API or @UI) and not @Manual",
         glue = {"com.vpetrou.cs.acceptance.stepdefs"})
 public class CucumberRunner {
 

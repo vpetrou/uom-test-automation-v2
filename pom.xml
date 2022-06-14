@@ -29,6 +29,8 @@
         <rest-assured.version>5.1.0</rest-assured.version>
         <json.version>20190722</json.version>
         <maven-cucumber-reporting.version>5.6.2</maven-cucumber-reporting.version>
+        <selenium.version>4.2.1</selenium.version>
+        <webdrivermanager.version>5.2.0</webdrivermanager.version>
         <skip.acceptance.tests>true</skip.acceptance.tests>
     </properties>
 
@@ -151,7 +153,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--Dependencies for Component Tests (API)-->
+        <!--Dependencies for Acceptance Tests (API)-->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -161,6 +163,31 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${json.version}</version>
+        </dependency>
+
+        <!--Dependencies for Acceptance Tests (UI)-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.0.1-jre</version>
         </dependency>
 
     </dependencies>

@@ -73,7 +73,7 @@ Running below command application will be up and running.
 
 <i>To stop 'test-automation-playground' just click CTRL + C on the console window.</i>
 
-7. Run Acceptance Tests (API)
+7. Run Acceptance Tests (API & UI)
 
 
     mvn verify -DskipTests -Dskip.acceptance.tests=false

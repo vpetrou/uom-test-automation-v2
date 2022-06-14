@@ -1,9 +1,20 @@
 package com.vpetrou.cs.acceptance.utils;
 
 import com.vpetrou.cs.acceptance.api.ContactAPI;
+import com.vpetrou.cs.acceptance.pages.Contact;
+import com.vpetrou.cs.acceptance.pages.ContactList;
+import com.vpetrou.cs.acceptance.pages.Menu;
 import io.cucumber.datatable.DataTable;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class BaseTest {
@@ -13,13 +24,6 @@ public class BaseTest {
     public static Response response;
 
     public static String API_URL;
-
-    public static void setURL() {
-        API_URL = System.getProperty("api.url");
-        if (API_URL == null || API_URL.isEmpty()) {
-            API_URL = "http://localhost:7001/api/v1";
-        }
-    }
 
     /*
      * |Label |Label2|
@@ -54,5 +58,67 @@ public class BaseTest {
         if (flagNotFound) column = -1;
         return column;
     }
+
+    WebDriver driver;
+
+    public static WebDriverWait wait;
+    public static Element element;
+
+    public static ContactList contactList;
+    public static Contact contact;
+    public static Menu menu;
+
+    public static String URL;
+
+    public void openBrowser() {
+        WebDriverManager.chromedriver().setup();
+        System.setProperty("io.netty.tryReflectionSetAccessible", "true");
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        element = new Element(driver);
+
+        contactList = new ContactList(driver);
+        contact = new Contact(driver);
+        menu = new Menu(driver);
+    }
+
+    public void closeBrowser() {
+        driver.quit();
+    }
+
+    public void openApplication() {
+        System.out.println("Demo Application is opened.");
+        driver.get(URL);
+        waitForLoad();
+    }
+
+    public static void setURL() {
+        URL = System.getProperty("app.url");
+        if (URL == null || URL.isEmpty()) {
+            URL = "http://localhost:7001";
+        }
+        API_URL = System.getProperty("api.url");
+        if (API_URL == null || API_URL.isEmpty()) {
+            API_URL = "http://localhost:7001/api/v1";
+        }
+    }
+
+    public void waitForLoad() {
+        ExpectedCondition<Boolean> expectation =
+                driver -> {
+                    assert driver != null;
+                    return ((JavascriptExecutor) driver)
+                            .executeScript("return document.readyState").toString().equals("complete");
+                };
+        try {
+            wait.until(driver -> expectation);
+            Thread.sleep(500);
+        } catch (Throwable error) {
+            Assertions.fail("Timeout waiting for Page Load Request to complete.");
+        }
+    }
+
+
 
 }
