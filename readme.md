@@ -50,7 +50,7 @@ Following below steps, we can build the Test Automation Playground application:
 <i>* Report is generated in /target/site/failsafe-report.html</i>
 
 <b>Instead of 2,3,4,5</b></br>
-<b>Run both Unit & Integration Tests and Generate Unit & Integration Test Report</b>
+<b>Run both Unit & Integration Tests and Generate Unit & Integration Test Report and Code Coverage Report (Jacoco)</b>
 
 
     mvn integration-test
@@ -58,13 +58,7 @@ Following below steps, we can build the Test Automation Playground application:
     mvn surefire-report:failsafe-report-only
     mvn site -DgenerateReports=false     
 
-6. Generate Code Coverage Report
-
-
-    mvn post-integration-test -DskipTests
-
-<i>* Argument -DskipTests is needed in order not to repeat the unit/integration test execution</i>
-<br><i>** Report is generated in /target/site/jacoco/index.html</i>
+<i>** Code Coverage Report is generated in /target/site/jacoco/index.html</i>
 
 6. Run Application
 
@@ -78,6 +72,14 @@ Running below command application will be up and running.
     java -jar test-automation-1.0.0.jar
 
 <i>To stop 'test-automation-playground' just click CTRL + C on the console window.</i>
+
+7. Run Acceptance Tests (API)
+
+
+    mvn verify -DskipTests -Dskip.acceptance.tests=false
+
+<i>Report is generated in /target/cucumber/cucumber-html-reports/overview-features.html</i>
+
 
 <h3>TEST AUTOMATION PLAYGROUND LINKS</h3>
 

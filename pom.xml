@@ -25,7 +25,32 @@
         <lombok.version>1.18.22</lombok.version>
         <swagger.version>2.4.0</swagger.version>
         <assertj.version>3.22.0</assertj.version>
+        <cucumber.version>7.3.4</cucumber.version>
+        <rest-assured.version>5.1.0</rest-assured.version>
+        <json.version>20190722</json.version>
+        <maven-cucumber-reporting.version>5.6.2</maven-cucumber-reporting.version>
+        <skip.acceptance.tests>true</skip.acceptance.tests>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skipTests>false</skipTests>
+                <skip.acceptance.tests>true</skip.acceptance.tests>
+            </properties>
+        </profile>
+        <profile>
+            <id>acceptance-test</id>
+            <properties>
+                <skipTests>true</skipTests>
+                <skip.acceptance.tests>false</skip.acceptance.tests>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -107,6 +132,36 @@
         <!--			<artifactId>spring-boot-test</artifactId>-->
         <!--			<scope>test</scope>-->
         <!--		</dependency>-->
+        <!--BDD Dependencies (Cucumber)-->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--Dependencies for Component Tests (API)-->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -126,6 +181,21 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>api-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>${skip.acceptance.tests}</skipTests>
+                            <includes>
+                                <include>com/vpetrou/cs/acceptance/CucumberRunner</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -145,10 +215,37 @@
                     <!-- attached to Maven test phase -->
                     <execution>
                         <id>report</id>
-                        <phase>post-integration-test</phase>
+                        <phase>integration-test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>${maven-cucumber-reporting.version}</version>
+                <executions>
+                    <execution>
+                        <id>cucumber-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>${project.name}</projectName>
+                            <buildNumber>${project.version}</buildNumber>
+                            <skip>${skip.acceptance.tests}</skip>
+                            <outputDirectory>${project.build.directory}/cucumber</outputDirectory>
+                            <inputDirectory>${project.build.directory}/cucumber</inputDirectory>
+                            <jsonFiles>
+                                <param>*.json</param>
+                            </jsonFiles>
+                            <mergeFeaturesWithRetest>true</mergeFeaturesWithRetest>
+                            <checkBuildResult>true</checkBuildResult>
+                            <skipEmptyJSONFiles>true</skipEmptyJSONFiles>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
