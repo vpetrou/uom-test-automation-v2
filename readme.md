@@ -34,7 +34,7 @@ Following below steps, we can build the Test Automation Playground application:
     mvn surefire-report:report-only
     mvn site -DgenerateReports=false 
 
-<i>Report is generated in /target/site/surefire-report.html</i>
+<i>* Report is generated in /target/site/surefire-report.html</i>
 
 4. Run Integration Tests
 
@@ -47,7 +47,7 @@ Following below steps, we can build the Test Automation Playground application:
     mvn surefire-report:failsafe-report-only
     mvn site -DgenerateReports=false 
 
-<i>Report is generated in /target/site/failsafe-report.html</i>
+<i>* Report is generated in /target/site/failsafe-report.html</i>
 
 <b>Instead of 2,3,4,5</b></br>
 <b>Run both Unit & Integration Tests and Generate Unit & Integration Test Report</b>
@@ -58,7 +58,13 @@ Following below steps, we can build the Test Automation Playground application:
     mvn surefire-report:failsafe-report-only
     mvn site -DgenerateReports=false     
 
+6. Generate Code Coverage Report
 
+
+    mvn post-integration-test -DskipTests
+
+<i>* Argument -DskipTests is needed in order not to repeat the unit/integration test execution</i>
+<br><i>** Report is generated in /target/site/jacoco/index.html</i>
 
 6. Run Application
 
